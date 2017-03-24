@@ -4,32 +4,52 @@ using namespace std;
 
 //variant 6
 
+void printArray(int iMyArray[5][5]) {
 
-void zeroifyMaxColumn(float fMyArray[5][4], int iYSize, int iXSize) {
+}
 
-  float max = fMyArray[0][0];
-  int maxColumn = 0;
+
+void swapBiggestElementWithRightBottom(int iMyArray[5][4], int iYSize, int iXSize) {
+
+  int iMax = iMyArray[0][0];
+  int xIndex = 0;
+  int yIndex = 0;
+
   for (int i = 0; i < iYSize; i++) {
     for(int j = 0; j < iXSize; j++) {
 
-      float fCursor = fMyArray[i][j];
-      if (fCursor > max) {
-        max = fCursor;
-        maxColumn = j;
+      int fCursor = iMyArray[i][j];
+      if (fCursor > iMax) {
+        iMax = fCursor;
+        xIndex = j;
+        yIndex = i;
       }
     }
   }
-  cout << "Max value: " << max << "\n";
-  cout << "Column: " << maxColumn << "\n";
+  cout << "Max value: " << iMax << "\n";
+  cout << "Column: " << xIndex << "\n";
+  cout << "Row: " << yIndex << "\n";
 
-  for (int k = 0; k < iYSize; k++) {
-    fMyArray[k][maxColumn] = 0;
-  }
+  int iRightBottomElement = iMyArray[iYSize - 1][iXSize - 1];
+  cout << "iRightBottomElement: " << iRightBottomElement << "\n";
+  iMyArray[iYSize - 1][iXSize - 1] = iMax;
+  iMyArray[yIndex][xIndex] = iRightBottomElement;
+
 }
 
-void setInversedRow(float fMyArray[5][4], float fRow[4], int iRowNumber) {
-  for (int i = 0; i < 4; i++) {
-    fRow[3 - i] = fMyArray[iRowNumber][i];
+void setPairSortedRow(int iMyArray[5][4], int iRow[4], int iRowNumber) {
+  int index = 0;
+
+  for (int i = 0; i < 4; i = i + 2) {
+    int iElement = iMyArray[iRowNumber][i];
+    iRow[index] = iElement;
+    index++;
+  }
+
+  for (int i = 1; i < 4; i = i + 2) {
+    int iElement = iMyArray[iRowNumber][i];
+    iRow[index] = iElement;
+    index++;
   }
 }
 
@@ -38,27 +58,33 @@ int main() {
   const int iXSize = 4;
   const int iYSize = 5;
 
-  float fMyArray[iYSize][iXSize] = {
-                                        {2.5, 3.4, 5.2, 1.6},
-                                        {3.2, 4.1, 6.2, 8.2},
-                                        {3.5, 1.2, 2.7, 9.8},
-                                        {1.1, 9.1, 3.9, 4.8},
-                                        {5.3, 4.8, 1.1, 8.1}
+  int iMyArray[iYSize][iXSize] = {
+                                        {2, 4, 5, 6},
+                                        {3, 1, 6, 8},
+                                        {5, 2, 7, 9},
+                                        {1, 1, 9, 4},
+                                        {4, 8, 1, 1}
                                       };
 
-  zeroifyMaxColumn(fMyArray, iYSize, iXSize);
-  cout << "Arr: " << fMyArray[0][3] << "\n";
-  cout << "Arr: " << fMyArray[1][3] << "\n";
-  cout << "Arr: " << fMyArray[2][3] << "\n";
-  cout << "Arr: " << fMyArray[3][3] << "\n";
-  cout << "Arr: " << fMyArray[4][3] << "\n";
+  swapBiggestElementWithRightBottom(iMyArray, iYSize, iXSize);
+  cout << "Arr: " << iMyArray[0][3] << "\n";
+  cout << "Arr: " << iMyArray[1][3] << "\n";
+  cout << "Arr: " << iMyArray[2][3] << "\n";
+  cout << "Arr: " << iMyArray[3][3] << "\n";
+  cout << "Arr: " << iMyArray[4][3] << "\n";
 
-  float fRow[iXSize] = {};
-  setInversedRow(fMyArray, fRow, 4);
+  int iRow[iXSize] = {};
+  const int rowToInverse = 4;
+  cout << "Row: " << iMyArray[4][0] << "\n";
+  cout << "Row: " << iMyArray[4][1] << "\n";
+  cout << "Row: " << iMyArray[4][2] << "\n";
+  cout << "Row: " << iMyArray[4][3] << "\n";
+  setPairSortedRow(iMyArray, iRow, rowToInverse);
 
-  for (int i = 0; i < 4; i++) {
-    cout << "Inversed value: " << fRow[i] << "\n";
-  }
+  cout << "Rowz: " << iRow[0] << "\n";
+  cout << "Rowz: " << iRow[1] << "\n";
+  cout << "Rowz: " << iRow[2] << "\n";
+  cout << "Rowz: " << iRow[3] << "\n";
 
   return 0;
 }
